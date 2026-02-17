@@ -1,0 +1,15 @@
+services:
+  db:
+    image: docker.io/library/postgres:16
+    container_name: qa_harness_db
+    environment:
+      POSTGRES_DB: harness
+      POSTGRES_USER: harness
+      POSTGRES_PASSWORD: harness
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U harness -d harness"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
