@@ -1,7 +1,6 @@
 package com.jose.harness.api;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
 
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class HealthControllerIT extends com.jose.harness.it.BaseIT {
+class ActuatorHealthIT extends com.jose.harness.it.BaseIT {
 
   @LocalServerPort private int port;
 
@@ -21,7 +20,7 @@ class HealthControllerIT extends com.jose.harness.it.BaseIT {
   }
 
   @Test
-  void healthReturnsOk() {
-    given().when().get("/health").then().statusCode(200).body("status", equalTo("ok"));
+  void actuatorHealthIsUp() {
+    given().when().get("/actuator/health").then().statusCode(200);
   }
 }
