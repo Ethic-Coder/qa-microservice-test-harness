@@ -63,6 +63,12 @@ Behavior:
 - same key + different payload → 409 Conflict
 - idempotency state is persisted in the database
 
+Examples:
+curl -i -X POST http://localhost:8080/tasks -H "Content-Type: application/json" -H "Idempotency-Key: demo-key-1" -d '{"title":"Lavar coche"}'
+curl -i -X POST http://localhost:8080/tasks -H "Content-Type: application/json" -H "Idempotency-Key: demo-key-1" -d '{"title":"Lavar coche"}'
+Expected: HTTP 409 Conflict
+curl -i -X POST http://localhost:8080/tasks -H "Content-Type: application/json" -H "Idempotency-Key: demo-key-1" -d '{"title":"Pintar pared"}'
+
 ---
 
 ### List tasks
