@@ -14,4 +14,10 @@ public class ApiExceptionHandler {
   public Map<String, String> handleTaskNotFound() {
     return Map.of("detail", "Task not found");
   }
+
+  @ExceptionHandler(IdempotencyConflictException.class)
+  @ResponseStatus(HttpStatus.CONFLICT)
+  public Map<String, String> handleIdempotencyConflict() {
+    return Map.of("detail", "Idempotency key conflict");
+  }
 }
