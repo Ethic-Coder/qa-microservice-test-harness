@@ -13,6 +13,7 @@ This repository demonstrates how a microservice can:
 - be tested end-to-end (HTTP + database)
 - support persistent idempotency
 - enforce automated quality gates in CI
+
 ## Technology Stack
 
 - Java 21
