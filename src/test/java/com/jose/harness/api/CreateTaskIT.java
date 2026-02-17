@@ -1,8 +1,8 @@
 package com.jose.harness.api;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 
 import com.jose.harness.it.BaseIT;
 import io.restassured.RestAssured;

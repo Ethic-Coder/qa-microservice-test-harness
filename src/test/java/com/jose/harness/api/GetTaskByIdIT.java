@@ -48,6 +48,11 @@ class GetTaskByIdIT extends BaseIT {
 
   @Test
   void getByIdReturns404WithExactMessage() {
-    given().when().get("/tasks/99999999").then().statusCode(404).body("detail", equalTo("Task not found"));
+    given()
+        .when()
+        .get("/tasks/99999999")
+        .then()
+        .statusCode(404)
+        .body("detail", equalTo("Task not found"));
   }
 }

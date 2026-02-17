@@ -28,7 +28,8 @@ public class TaskController {
   private final TaskRepository taskRepository;
   private final TaskIdempotencyRepository idempotencyRepository;
 
-  public TaskController(TaskRepository taskRepository, TaskIdempotencyRepository idempotencyRepository) {
+  public TaskController(
+      TaskRepository taskRepository, TaskIdempotencyRepository idempotencyRepository) {
     this.taskRepository = taskRepository;
     this.idempotencyRepository = idempotencyRepository;
   }
@@ -51,7 +52,10 @@ public class TaskController {
         if (!record.getRequestHash().equals(requestHash)) {
           throw new IdempotencyConflictException();
         }
-        Task task = taskRepository.findById(record.getTaskId()).orElseThrow(() -> new TaskNotFoundException(record.getTaskId()));
+        Task task =
+            taskRepository
+                .findById(record.getTaskId())
+                .orElseThrow(() -> new TaskNotFoundException(record.getTaskId()));
         return new TaskResponse(task.getId(), task.getTitle());
       }
 

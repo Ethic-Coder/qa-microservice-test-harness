@@ -25,22 +25,17 @@ class ListTasksPaginationIT extends BaseIT {
   @Test
   void listRespectsLimitAndOffset() {
     for (int i = 1; i <= 5; i++) {
-      given().contentType("application/json").body("{\"title\":\"T" + i + "\"}").post("/tasks").then().statusCode(201);
+      given()
+          .contentType("application/json")
+          .body("{\"title\":\"T" + i + "\"}")
+          .post("/tasks")
+          .then()
+          .statusCode(201);
     }
 
-    given()
-        .when()
-        .get("/tasks?limit=2&offset=0")
-        .then()
-        .statusCode(200)
-        .body("$", hasSize(2));
+    given().when().get("/tasks?limit=2&offset=0").then().statusCode(200).body("$", hasSize(2));
 
-    given()
-        .when()
-        .get("/tasks?limit=2&offset=2")
-        .then()
-        .statusCode(200)
-        .body("$", hasSize(2));
+    given().when().get("/tasks?limit=2&offset=2").then().statusCode(200).body("$", hasSize(2));
 
     given()
         .when()

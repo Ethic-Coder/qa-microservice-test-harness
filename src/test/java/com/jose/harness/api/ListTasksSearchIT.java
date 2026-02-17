@@ -1,8 +1,8 @@
 package com.jose.harness.api;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 
 import com.jose.harness.it.BaseIT;
 import io.restassured.RestAssured;
@@ -24,8 +24,18 @@ class ListTasksSearchIT extends BaseIT {
 
   @Test
   void searchIsCaseInsensitiveAndFiltersByTitle() {
-    given().contentType("application/json").body("{\"title\":\"Comprar Pan\"}").post("/tasks").then().statusCode(201);
-    given().contentType("application/json").body("{\"title\":\"Lavar coche\"}").post("/tasks").then().statusCode(201);
+    given()
+        .contentType("application/json")
+        .body("{\"title\":\"Comprar Pan\"}")
+        .post("/tasks")
+        .then()
+        .statusCode(201);
+    given()
+        .contentType("application/json")
+        .body("{\"title\":\"Lavar coche\"}")
+        .post("/tasks")
+        .then()
+        .statusCode(201);
 
     given()
         .when()
