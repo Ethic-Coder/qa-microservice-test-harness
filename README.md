@@ -1,23 +1,35 @@
 # qa-microservice-test-harness
 
-A production-grade QA / Backend testing laboratory demonstrating how to design, validate, and test a Java microservice using real infrastructure, reproducible environments, and reliable integration tests.
+Java microservice with a REST API and a complete integration testing setup based on real infrastructure.
 
-The goal of this project is not to showcase a CRUD API, but to demonstrate how a service should be tested correctly under realistic conditions.
+This repository contains a minimal backend service whose primary purpose is to demonstrate how a service is validated and tested, rather than to provide business features.
 
-## Project Goals
+---
 
-This repository demonstrates how a microservice can:
+## Overview
 
-- run against a real PostgreSQL database
-- manage its schema exclusively via Flyway migrations
-- be tested end-to-end (HTTP + database)
-- support persistent idempotency
-- enforce automated quality gates in CI
+The application exposes a small REST API for managing tasks and persists data in a PostgreSQL database.
 
-It is intended as:
-- a technical laboratory
-- a defendable portfolio project
-- a reference for QA / backend best practices
+The repository includes:
+
+- the service implementation
+- database schema migrations
+- integration tests executed against a real database
+- a CI pipeline enforcing formatting, testing, and coverage rules
+
+All environments (local, test, CI) behave consistently.
+
+---
+
+## Architecture
+
+- Spring Boot REST application
+- PostgreSQL as the persistence layer
+- Flyway for database schema management
+- JPA / Hibernate with schema validation enabled
+- Integration tests executed against real infrastructure
+
+No in-memory databases or mocked persistence layers are used.
 
 ---
 
@@ -26,116 +38,139 @@ It is intended as:
 - Java 21
 - Spring Boot
 - PostgreSQL
-- Flyway (database migrations)
+- Flyway
 - JPA / Hibernate
 - JUnit 5
 - RestAssured
 - Testcontainers
-- Docker / Podman (development environment)
+- Docker / Podman
 - Maven Wrapper
-- Spotless (code formatting)
-- JaCoCo (code coverage)
-- GitHub Actions (CI)
+- Spotless
+- JaCoCo
+- GitHub Actions
 
 ---
 
-## System Under Test (SUT)
-
-A minimal Tasks REST API with real persistence.
+## API Description
 
 ### Health check
 
-GET /health
+**GET** `/health`
 
 Response:
+
+```json
 { "status": "ok" }
-
----
-
-### Create task (idempotent)
+Create task (idempotent)
 
 POST /tasks
 
 Request body:
+
 { "title": "Task description" }
 
-Rules:
-- title is mandatory
-- must not be empty or blank
+Constraints:
+
+title is required
+
+title must not be empty or blank
 
 Optional header:
+
 Idempotency-Key: <string>
 
 Behavior:
-- same key + same payload → no duplication, same response returned
-- same key + different payload → 409 Conflict
 
----
+same idempotency key with the same payload returns the same result
 
-### List tasks
+same idempotency key with a different payload returns 409 Conflict
+
+idempotency state is persisted in the database
+
+List tasks
 
 GET /tasks
 
 Query parameters:
-- limit (default 20, min 1, max 100)
-- offset (default 0)
-- search (optional, case-insensitive)
 
----
+limit (default 20, min 1, max 100)
 
-### Get task by ID
+offset (default 0)
+
+search (optional, case-insensitive)
+
+Returns a paginated list of tasks matching the provided filters.
+
+Get task by ID
 
 GET /tasks/{id}
 
 Responses:
-- 200 OK if the task exists
-- 404 Not Found otherwise
+
+200 OK if the task exists
+
+404 Not Found if the task does not exist
 
 404 response body:
+
 { "detail": "Task not found" }
+Database & Migrations
 
----
+The service always runs against a PostgreSQL database.
 
-## Database & Migrations
+Schema changes are defined exclusively through Flyway migrations
 
-The service uses a real PostgreSQL database in all environments.
+Hibernate is configured with ddl-auto=validate
 
-- Schema changes are managed exclusively via Flyway
-- Hibernate is configured with ddl-auto=validate
-- No schema is generated automatically at runtime
+Application startup fails if the schema does not match the entity model
 
----
+This guarantees explicit and versioned database structure.
 
-## Testing Strategy
+Testing
 
-This project focuses on integration testing over mocked unit tests.
+The repository includes a full suite of integration tests.
 
-- HTTP API tested end-to-end
-- Real PostgreSQL via Testcontainers
-- Flyway migrations executed during tests
-- Idempotency, pagination, and error cases verified
+Tests verify:
 
-No external infrastructure is required.
+HTTP API behavior
 
----
+database persistence
 
-## Continuous Integration & Quality Gates
+Flyway migration execution
 
-GitHub Actions enforces:
+idempotency guarantees
 
-- full test execution
-- Spotless formatting checks
-- JaCoCo coverage thresholds
+pagination and search behavior
 
-The build fails if any quality gate is not met.
+error handling
 
----
+PostgreSQL is started automatically using Testcontainers during test execution.
+No external services are required to run the tests.
 
-## Project Status
+Continuous Integration
 
-This project is intentionally feature-complete.
+A GitHub Actions workflow is configured to run on each push.
 
-The focus is on:
-- correctness
-- reproducibility
-- realistic testing practices
+The pipeline:
+
+executes the full test suite
+
+checks code formatting with Spotless
+
+enforces minimum coverage thresholds using JaCoCo
+
+The build fails if any check does not pass.
+
+Project Scope
+
+The application is intentionally minimal.
+
+The scope is limited to:
+
+realistic backend behavior
+
+reproducible environments
+
+reliable integration testing
+
+Additional features (authentication, messaging, async processing, etc.) are intentionally out of scope.
