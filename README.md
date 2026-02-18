@@ -47,28 +47,56 @@ Response:
 
 ### Create task (idempotent)
 
+## Create task (idempotent)
+
 POST /tasks
 
 Request body:
-{ "title": "Task description" }
+{
+  "title": "Task description"
+}
 
 Rules:
 - title is mandatory
-- must not be empty or blank
+- title must not be empty or blank
 
 Optional header:
-Idempotency-Key: <string>
+- Idempotency-Key
 
 Behavior:
-- same key + same payload → no duplication, same response returned
-- same key + different payload → 409 Conflict
+- same key + same payload -> no duplication, same response returned
+- same key + different payload -> HTTP 409 Conflict
 - idempotency state is persisted in the database
 
 Examples:
-curl -i -X POST http://localhost:8080/tasks -H "Content-Type: application/json" -H "Idempotency-Key: demo-key-1" -d '{"title":"Lavar coche"}'
-curl -i -X POST http://localhost:8080/tasks -H "Content-Type: application/json" -H "Idempotency-Key: demo-key-1" -d '{"title":"Lavar coche"}'
+
+1) First request (creates the task)
+
+curl -i -X POST http://localhost:8080/tasks \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: demo-key-1" \
+  -d '{"title":"Lavar coche"}'
+
+Expected: 201 Created (or 200 OK, depending on implementation)
+
+2) Replay (same key + same payload)
+
+curl -i -X POST http://localhost:8080/tasks \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: demo-key-1" \
+  -d '{"title":"Lavar coche"}'
+
+Expected: same response as the first call (no duplication)
+
+3) Conflict (same key + different payload)
+
+curl -i -X POST http://localhost:8080/tasks \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: demo-key-1" \
+  -d '{"title":"Pintar pared"}'
+
 Expected: HTTP 409 Conflict
-curl -i -X POST http://localhost:8080/tasks -H "Content-Type: application/json" -H "Idempotency-Key: demo-key-1" -d '{"title":"Pintar pared"}'
+
 
 ---
 
