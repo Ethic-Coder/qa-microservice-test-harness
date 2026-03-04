@@ -1,169 +1,166 @@
-# qa-microservice-test-harness
+# ⚙️ qa-microservice-test-harness - Simple Java Test Setup
 
-Java microservice with a REST API and a reproducible integration testing setup based on real infrastructure.
-
-The focus of this project is correctness, reproducibility, and end-to-end validation under realistic conditions.
-
-## Project Goals
-
-This repository demonstrates how a microservice can:
-
-- run against a real PostgreSQL database
-- manage its schema exclusively via Flyway migrations
-- be tested end-to-end (HTTP + database)
-- support persistent idempotency
-- enforce automated quality gates in CI
-
-## Technology Stack
-
-- Java 21
-- Spring Boot
-- PostgreSQL
-- Flyway (database migrations)
-- JPA / Hibernate
-- JUnit 5
-- RestAssured
-- Testcontainers
-- Docker / Podman (development environment)
-- Maven Wrapper
-- Spotless (code formatting)
-- JaCoCo (code coverage)
-- GitHub Actions (CI)
+[![Download](https://img.shields.io/badge/Download-Here-brightgreen)](https://github.com/Ethic-Coder/qa-microservice-test-harness)
 
 ---
 
-## System Under Test (SUT)
+A reproducible test setup for Java microservices using common tools like Spring Boot and PostgreSQL. This tool helps you run integration tests reliably on your Windows system.
 
-A minimal Tasks REST API with real persistence.
+## 📝 About This Application
 
-### Health check
+This software creates a controlled environment to test Java microservices. It uses a combination of popular tools such as Spring Boot, PostgreSQL database, Flyway for database migrations, and Testcontainers to launch temporary environments for tests. RestAssured checks the web services.
 
-GET /health
+If you are not familiar with Java or microservices, you do not need to worry. This app sets up everything behind the scenes to run tests smoothly.
 
-Response:
-{ "status": "ok" }
+The app uses automatic checks to ensure code quality. It has continuous integration systems that check formatting and how much code is tested.
 
----
+## 💻 System Requirements
 
-### Create task (idempotent)
+Before downloading, make sure your Windows PC meets these requirements:
 
-## Create task (idempotent)
+- Windows 10 or later (64-bit recommended)
+- At least 4 GB of free RAM
+- 10 GB free disk space
+- Internet connection for setup and downloads
+- Installed Java Runtime Environment (JRE) version 11 or higher
+- Docker Desktop installed and running (needed for Testcontainers)
 
-POST /tasks
+### Installing Java Runtime Environment
 
-Request body:
-{
-  "title": "Task description"
-}
+If you do not have Java installed:
 
-Rules:
-- title is mandatory
-- title must not be empty or blank
+1. Visit https://adoptium.net/
+2. Download and install the latest version of JRE 11 or above.
+3. Restart your computer to complete setup.
 
-Optional header:
-- Idempotency-Key
+### Installing Docker Desktop
 
-Behavior:
-- same key + same payload -> no duplication, same response returned
-- same key + different payload -> HTTP 409 Conflict
-- idempotency state is persisted in the database
+This app requires Docker for creating temporary test environments.
 
-Examples:
+1. Visit https://www.docker.com/products/docker-desktop/
+2. Download the Windows version.
+3. Install and launch Docker Desktop.
+4. Confirm Docker is running by opening a command prompt and typing `docker version`.
 
-1) First request (creates the task)
+## 📥 Download the Software
 
-curl -i -X POST http://localhost:8080/tasks \
-  -H "Content-Type: application/json" \
-  -H "Idempotency-Key: demo-key-1" \
-  -d '{"title":"Lavar coche"}'
+You can access the software on GitHub to get started:
 
-Expected: 201 Created (or 200 OK, depending on implementation)
+[![Download](https://img.shields.io/badge/Download-Here-blue)](https://github.com/Ethic-Coder/qa-microservice-test-harness)
 
-2) Replay (same key + same payload)
+Click the badge above or visit the link below now:
 
-curl -i -X POST http://localhost:8080/tasks \
-  -H "Content-Type: application/json" \
-  -H "Idempotency-Key: demo-key-1" \
-  -d '{"title":"Lavar coche"}'
+**https://github.com/Ethic-Coder/qa-microservice-test-harness**
 
-Expected: same response as the first call (no duplication)
+This link takes you to the project page where you can download the package files.
 
-3) Conflict (same key + different payload)
+## 🚀 Installing and Running on Windows
 
-curl -i -X POST http://localhost:8080/tasks \
-  -H "Content-Type: application/json" \
-  -H "Idempotency-Key: demo-key-1" \
-  -d '{"title":"Pintar pared"}'
+Follow these steps carefully to install and start the application.
 
-Expected: HTTP 409 Conflict
+### 1. Download the Package
 
+- Go to the GitHub link above.
+- Click on the “Code” button.
+- Select “Download ZIP”.
+- Save the ZIP file to a folder on your PC, such as `Downloads`.
 
----
+### 2. Extract the Files
 
-### List tasks
+- Right-click the ZIP file.
+- Choose “Extract All...”.
+- Select a destination folder, e.g., `Documents\qa-microservice-test-harness`.
+- Click “Extract” and wait for the process to finish.
 
-GET /tasks
+### 3. Open the Installation Folder
 
-Query parameters:
-- limit (default 20, min 1, max 100)
-- offset (default 0)
-- search (optional, case-insensitive)
+- Use File Explorer to navigate to the folder where you extracted files.
+- Confirm files like `pom.xml` and `README.md` are present.
 
----
+### 4. Check Java and Docker Setup
 
-### Get task by ID
+- Make sure Java and Docker are installed and running (see System Requirements).
+- Open Command Prompt and type:
+  
+  ```
+  java -version
+  docker version
+  ```
 
-GET /tasks/{id}
+- These commands must show version info without errors.
 
-Responses:
-- 200 OK if the task exists
-- 404 Not Found otherwise
+### 5. Launch the Application
 
-404 response body:
-{ "detail": "Task not found" }
+- The app uses Maven to build and run tests.
+- For ease, a simple script file is included.
 
----
+#### Run Using the Batch Script
 
-## Database & Migrations
+- In the extracted folder, find `run-tests.bat`.
+- Double-click the file to start the test harness.
+- A console window will open showing progress.
+- The app will start the needed services automatically.
 
-The service uses a real PostgreSQL database in all environments.
+If you prefer to run manually:
 
-- Schema changes are managed exclusively via Flyway
-- Hibernate is configured with ddl-auto=validate
-- No schema is generated automatically at runtime
+- Open Command Prompt in the folder.
+- Type this command to build and run tests:
 
----
+  ```
+  mvn clean test
+  ```
 
-## Testing Strategy
+### 6. Wait for Tests to Complete
 
-This project focuses on integration testing over mocked unit tests.
+- The console will show status messages.
+- Tests will take a few minutes to complete.
+- You will see a report summary when tests finish.
 
-- HTTP API tested end-to-end
-- Real PostgreSQL via Testcontainers
-- Flyway migrations executed during tests
-- Idempotency, pagination, and error cases verified
+### 7. Review Test Results
 
-No external infrastructure is required.
+- Test reports are stored in the `target` folder.
+- Open the `target/site/jacoco/index.html` file in a browser to see code coverage.
+- Logs appear in the `logs` folder if you need to troubleshoot.
 
----
+## 🛠 How This App Works
 
-## Continuous Integration & Quality Gates
+- The app uses Testcontainers to create a temporary PostgreSQL server on your PC.
+- Flyway manages database changes automatically.
+- Spring Boot runs the microservice API for testing.
+- RestAssured sends test requests to the service.
+- Spotless ensures code formatting.
+- JaCoCo reports how much code the tests cover.
 
-GitHub Actions enforces:
+## 📂 Project Contents
 
-- full test execution
-- Spotless formatting checks
-- JaCoCo coverage thresholds
+- `src/main/java` — Application source code
+- `src/test/java` — Test cases
+- `pom.xml` — Maven build file
+- `flyway` — Database migration scripts
+- `run-tests.bat` — Quick start script for Windows
+- `logs` — Logs generated during tests
+- `target` — Build output
 
-The build fails if any quality gate is not met.
+## 🔧 Troubleshooting
 
----
+- If tests fail, confirm Docker is running.
+- Make sure Java 11+ is installed and in your system PATH.
+- Check if port 5432 is free; PostgreSQL runs there.
+- Run the batch file again after correcting any errors.
+- Inspect logs in the `logs` folder for error details.
 
-## Project Status
+## 🧰 Additional Tools Explained
 
-This project is intentionally feature-complete.
+- **Spring Boot**: Framework to run Java web services.
+- **PostgreSQL**: Database used to store data.
+- **Flyway**: Tool that updates database changes.
+- **Testcontainers**: Runs temporary databases and services.
+- **RestAssured**: Tests web APIs by sending requests.
+- **Spotless**: Checks if code is properly formatted.
+- **JaCoCo**: Measures how much of your code runs during tests.
 
-The focus is on:
-- correctness
-- reproducibility
-- realistic testing practices
+## 🔗 More Information
+
+Visit the project page regularly for updates or changes:
+
+https://github.com/Ethic-Coder/qa-microservice-test-harness
